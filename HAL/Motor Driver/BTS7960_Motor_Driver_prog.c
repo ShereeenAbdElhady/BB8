@@ -120,7 +120,7 @@ static void BTS_MOTORDRIVER_u8MotorRotateClockWise(u8 Copy_u8MotorIndex , u8 Cop
 	{
 		/*call motor stop function to stop the motor for 500ms                               */
 		BTS_MOTORDRIVER_u8MotorStop(Copy_u8MotorIndex);
-		delay_milliSecond(10000);
+		///delay_milliSecond(10000);
 	}
 
 
@@ -177,7 +177,7 @@ static void BTS_MOTORDRIVER_u8MotorRotateAntiClockWise(u8 Copy_u8MotorIndex , u8
 	{
 		/*call motor stop function to stop the motor for 500ms                               */
 		BTS_MOTORDRIVER_u8MotorStop (Copy_u8MotorIndex);
-		delay_milliSecond(10000);
+		//delay_milliSecond(10000);
 	}
 
 	/*set the array of motors' directions with Anti clockwise direction                      */

@@ -16,8 +16,8 @@
 u8 RX_Buffer[1] ;
 u8 right_counter;
 u8 left_counter;
-u8 CW_counter;
-u8 ACW_counter;
+u8 CW_flag;
+u8 ACW_flag;
 
 void LED (void)
 {
@@ -46,8 +46,8 @@ void MotorMove (void)
 	//right
 	else if( (RX_Buffer[0] == 'r') && (right_counter==0))
 	{
-		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR1, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
-		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR2, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
+		//BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR1, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
+		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR2, BTS_MOTORDRIVER_u8_20_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
 		right_counter++;
 	}
 
@@ -60,8 +60,8 @@ void MotorMove (void)
 	//left
 	else if( (RX_Buffer[0] == 'l') && (left_counter==0))
 	{
-		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR1, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
-		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR2, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_ACW_BACKWARD);
+		//BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR1, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
+		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR2, BTS_MOTORDRIVER_u8_20_SPEED, BTS_MOTORDRIVER_u8_ACW_BACKWARD);
 		left_counter++;
 	}
 	else if ((RX_Buffer[0] == 'l')  && (left_counter != 0))
@@ -71,41 +71,40 @@ void MotorMove (void)
 	}
 
 	// Rotate clockwise
-	else if ((RX_Buffer[0] == 'C') && (CW_counter == 0))
+	else if ((RX_Buffer[0] == 'C') && (CW_flag == 0))
 	{
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR2);
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR1);
 
-		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR3, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_ACW_BACKWARD);
-		delay_milliSecond(1500);
+		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR3, BTS_MOTORDRIVER_u8_50_SPEED, BTS_MOTORDRIVER_u8_ACW_BACKWARD);
+		delay_milliSecond(1200);
 		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR3, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
-
-		CW_counter++;
+		CW_flag=1;
+		ACW_flag=0;
 	}
-	else if ((RX_Buffer[0] == 'C') && (CW_counter != 0))
+	else if ((RX_Buffer[0] == 'C') && (CW_flag != 0))
 	{
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR3);
-		CW_counter = 0;
+		CW_flag = 0;
 	}
 
 	// Rotate Anti clockwise
-	else if ((RX_Buffer[0] == 'A') && (ACW_counter == 0))
+	else if ((RX_Buffer[0] == 'A') && (ACW_flag == 0))
 	{
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR2);
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR1);
 
 		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR3, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_CW_FORWARD);
-		delay_milliSecond(1500);
+		delay_milliSecond(1200);
 		BTS_MOTORDRIVER_u8MotorMove (BTS_MOTORDRIVER_u8_MOTOR3, BTS_MOTORDRIVER_u8_100_SPEED, BTS_MOTORDRIVER_u8_ACW_BACKWARD);
-
-
-		ACW_counter++;
+		ACW_flag=1;
+		CW_flag=0;
 	}
 
-	else if ((RX_Buffer[0] == 'A') && (ACW_counter != 0))
+	else if ((RX_Buffer[0] == 'A') && (ACW_flag != 0))
 	{
 		BTS_MOTORDRIVER_u8MotorStop(BTS_MOTORDRIVER_u8_MOTOR3);
-		ACW_counter = 0;
+		ACW_flag = 0;
 	}
 
 	else if( (RX_Buffer[0] == 's') )

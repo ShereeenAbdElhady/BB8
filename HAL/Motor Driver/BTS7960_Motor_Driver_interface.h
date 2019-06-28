@@ -34,6 +34,7 @@
 /*Different speeds' definitions each speed is equivalent to a Duty cycle percentage generated*/
 /* From Timers' peripheral                                                                   */
 #define BTS_MOTORDRIVER_u8_0_SPEED       (u8)0
+#define BTS_MOTORDRIVER_u8_20_SPEED      (u8)20
 #define BTS_MOTORDRIVER_u8_25_SPEED      (u8)25
 #define BTS_MOTORDRIVER_u8_50_SPEED      (u8)50
 #define BTS_MOTORDRIVER_u8_75_SPEED      (u8)75
